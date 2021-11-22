@@ -10,13 +10,17 @@ proc main() =
   var
     player: Player
     weapons: Weapons
-    armors: Armours
+    armors: Armors
 
   weapons = get_weapon_cfg()
   armors = get_armor_cfg()
 
-  # player.weapon = weapons[0]
-  # echo get_hit(player.weapon)
+  player.weapon = weapons[0]
+  echo get_hit(player.weapon)
+  var
+    armor_set: ArmorSet
+    armor: Armour
+  armor.
 
 when isMainModule:
   main()

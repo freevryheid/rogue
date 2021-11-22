@@ -7,13 +7,13 @@ type
   Hit = tuple
     mu: float
     sigma: float
-  Wtype = enum
-    sword, axe, hammer, bow, crossbow
+  # Wtype = enum
+  #   sword, axe, hammer, bow, crossbow
   Weapon* = object
     name*: string
     hands*: int
     range*: bool
-    wtype*: Wtype
+    wtype*: int
     art*: bool
     hit*: Hit
     price: float
@@ -22,13 +22,12 @@ type
 proc get_weapon_cfg*(): Weapons =
   let weapons = loadConfig("weapon.cfg")
   var
-    wtype: int
+    # wtype: int
     hitp: float
   for w in weapons.sections:
     var weapon: Weapon
     weapon.name = w
-    wtype = weapons.getSectionValue(w, "type").parseInt()
-    weapon.wtype = parseEnum[Wtype](wtype)
+    weapon.wtype = weapons.getSectionValue(w, "type").parseInt()
     weapon.hands = weapons.getSectionValue(w, "hands").parseInt()
     weapon.range = weapons.getSectionValue(w, "range").parseBool()
     weapon.art = weapons.getSectionValue(w, "art").parseBool()
@@ -36,15 +35,15 @@ proc get_weapon_cfg*(): Weapons =
     hitp = weapons.getSectionValue(w, "hit").parseFloat()
     weapon.hit.mu = hitp
     case weapon.wtype
-    of sword:
+    of 0:
       weapon.hit.sigma = 0.2*hitp
-    of axe:
+    of 1:
       weapon.hit.sigma = 0.4*hitp
-    of hammer:
+    of 2:
       weapon.hit.sigma = 0.6*hitp
-    of bow:
+    of 3:
       weapon.hit.sigma = 0.2*hitp
-    of crossbow:
+    of 4:
       weapon.hit.sigma = 0.2*hitp
     else: discard
     result.add(weapon)
