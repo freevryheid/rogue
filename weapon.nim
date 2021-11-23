@@ -15,6 +15,7 @@ type
     hit*: Hit
     price*: float
     condition*: float
+    weight*: float
   Weapons* = seq[Weapon]
 
 proc get_weapon_cfg*(): Weapons =
@@ -29,6 +30,7 @@ proc get_weapon_cfg*(): Weapons =
     weapon.art = weapons.getSectionValue(w, "art").parseBool()
     weapon.price = weapons.getSectionValue(w, "price").parseFloat()
     weapon.condition = weapons.getSectionValue(w, "condition").parseFloat()
+    weapon.weight = weapons.getSectionValue(w, "weight").parseFloat()
     hitp = weapons.getSectionValue(w, "hit").parseFloat()
     weapon.hit.mu = hitp
     case weapon.wtype

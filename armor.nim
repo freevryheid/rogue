@@ -2,10 +2,6 @@ import std/parsecfg
 import std/strutils
 
 type
-  # Body = enum
-  #   head, chest, arms, legs, hands, feet
-  # Atype = enum
-  #   light, medium, heavy
   Armor* = object
     name*: string
     body*: int
@@ -14,7 +10,7 @@ type
     protect*: float
     price: float
     condition*: float
-
+    weight*: float
   ArmorSet* = object
     head: Armor
     chest: Armor
@@ -22,13 +18,10 @@ type
     legs: Armor
     hands: Armor
     feet: Armor
-
   Armors* = seq[Armor]
 
 proc get_armor_cfg*(): Armors =
   let armors = loadConfig("armor.cfg")
-  var
-    body, atype: int
   for a in armors.sections:
     var armor: Armor
     armor.name = a
@@ -38,5 +31,6 @@ proc get_armor_cfg*(): Armors =
     armor.price = armors.getSectionValue(a, "price").parseFloat()
     armor.protect = armors.getSectionValue(a, "protect").parseFloat()
     armor.condition = armors.getSectionValue(a, "condition").parseFloat()
+    armor.weight = armors.getSectionValue(a, "weight").parseFloat()
     result.add(armor)
 

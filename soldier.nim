@@ -11,6 +11,11 @@ type
     thirst*: float
     morale*: float
     xp*: float
+    strength*: float
+    intelligence*: float
+    dexterity*: float
+
+
 
 
 
