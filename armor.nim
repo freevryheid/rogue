@@ -13,6 +13,8 @@ type
     art*: bool
     protect*: float
     price: float
+    condition*: float
+
   ArmorSet* = object
     head: Armor
     chest: Armor
@@ -20,6 +22,7 @@ type
     legs: Armor
     hands: Armor
     feet: Armor
+
   Armors* = seq[Armor]
 
 proc get_armor_cfg*(): Armors =
@@ -27,17 +30,13 @@ proc get_armor_cfg*(): Armors =
   var
     body, atype: int
   for a in armors.sections:
-    var
-      armor: Armor
+    var armor: Armor
     armor.name = a
     armor.body = armors.getSectionValue(a, "body").parseInt()
-    # armor.body = parseEnum[Body](body)
     armor.atype = armors.getSectionValue(a, "type").parseInt()
-    # armor.atype = parseEnum[Atype](atype)
     armor.art = armors.getSectionValue(a, "art").parseBool()
     armor.price = armors.getSectionValue(a, "price").parseFloat()
     armor.protect = armors.getSectionValue(a, "protect").parseFloat()
+    armor.condition = armors.getSectionValue(a, "condition").parseFloat()
     result.add(armor)
-
-
 

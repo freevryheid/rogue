@@ -1,14 +1,11 @@
 import std/parsecfg
 import std/strutils
 import std/random
-# import tables
 
 type
   Hit = tuple
     mu: float
     sigma: float
-  # Wtype = enum
-  #   sword, axe, hammer, bow, crossbow
   Weapon* = object
     name*: string
     hands*: int
@@ -16,14 +13,13 @@ type
     wtype*: int
     art*: bool
     hit*: Hit
-    price: float
+    price*: float
+    condition*: float
   Weapons* = seq[Weapon]
 
 proc get_weapon_cfg*(): Weapons =
   let weapons = loadConfig("weapon.cfg")
-  var
-    # wtype: int
-    hitp: float
+  var hitp: float
   for w in weapons.sections:
     var weapon: Weapon
     weapon.name = w
@@ -32,19 +28,20 @@ proc get_weapon_cfg*(): Weapons =
     weapon.range = weapons.getSectionValue(w, "range").parseBool()
     weapon.art = weapons.getSectionValue(w, "art").parseBool()
     weapon.price = weapons.getSectionValue(w, "price").parseFloat()
+    weapon.condition = weapons.getSectionValue(w, "condition").parseFloat()
     hitp = weapons.getSectionValue(w, "hit").parseFloat()
     weapon.hit.mu = hitp
     case weapon.wtype
-    of 0:
+    of 0:  # sword
       weapon.hit.sigma = 0.2*hitp
-    of 1:
+    of 1:  # axe
       weapon.hit.sigma = 0.4*hitp
-    of 2:
+    of 2:  # hammer
       weapon.hit.sigma = 0.6*hitp
-    of 3:
+    of 3:  # bow
       weapon.hit.sigma = 0.2*hitp
-    of 4:
-      weapon.hit.sigma = 0.2*hitp
+    of 4:  # crossbow
+      weapon.hit.sigma = 0.4*hitp
     else: discard
     result.add(weapon)
 
